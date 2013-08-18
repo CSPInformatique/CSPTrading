@@ -1,0 +1,71 @@
+package com.cspinformatique.csptrading.service.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.cspinformatique.csptrading.entity.Quote;
+import com.cspinformatique.csptrading.entity.QuoteResponse;
+import com.cspinformatique.csptrading.entity.Stock;
+import com.cspinformatique.csptrading.repository.mongo.QuoteRepository;
+import com.cspinformatique.csptrading.service.QuoteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Service
+public class QuoteServiceImpl implements QuoteService {
+	private static final String LECHO_URL = "http://1.ajax.lecho.be/rtq/?reqtype=simple&quotes=";
+	
+	@Autowired private QuoteRepository quoteRepository;
+	@Autowired private RestTemplate restTemplate;
+	@Autowired private ObjectMapper objectMapper;
+	
+	@Override
+	public double getBuyableQuantity(double investment, double stockPrice){
+		return Math.floor(investment / stockPrice);
+	}
+	@Override
+	public List<Quote> findByStockIdAndTimestampBetween(long stockId, Date fromDate, Date toDate){
+		return this.quoteRepository.findByStockIdAndTimestampBetweenOrderByTimestampAsc(stockId, fromDate, toDate);
+	}
+	
+	@Override
+	public Quote getQuote(String id){
+		return this.quoteRepository.findOne(id);
+	}
+	
+	@Override
+	public Quote loadLatestQuote(Stock stock){
+		try{
+			// Retreiving LECHO' web services and removing the head of the response.
+			String response =	new RestTemplate().getForObject(
+									LECHO_URL + stock.getId(),
+									String.class
+								).substring(16);
+			
+			// Converting the message after removing the tail of the response.
+			QuoteResponse quoteResponse =	objectMapper.readValue(
+												response.substring(0, response.length()-19), 
+												QuoteResponse.class
+											);
+			
+			Quote quote =	quoteResponse.getStocks().get(
+								stock.getId()
+							);
+			
+			quote.setStockId(stock.getId());
+			quote.setTimestamp(new Date(quoteResponse.getServerTime()));
+			
+			return quote;
+		}catch(Exception ex){
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	@Override
+	public void saveQuote(Quote quote) {
+		this.quoteRepository.save(quote);
+	}
+}
