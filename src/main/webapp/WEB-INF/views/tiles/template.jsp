@@ -19,6 +19,7 @@
     <link href="resources/css/libs/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="resources/css/positions.css" rel="stylesheet">
     <link href="resources/css/tools.css" rel="stylesheet">
     
 	<script src="resources/js/libs/jquery.js"></script>
@@ -50,8 +51,10 @@
 			</div>
 			<tiles:insertAttribute name="footer" />
 		</div>
-
     </div>
+    
+    <script src="resources/js/positions/Position.js"></script>
+    <script src="resources/js/positions/PositionView.js"></script>
     
     <script src="resources/js/quotes/QuoteGap.js"></script>
     <script src="resources/js/quotes/QuoteGapView.js"></script>

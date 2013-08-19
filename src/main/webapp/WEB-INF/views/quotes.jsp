@@ -22,4 +22,3 @@
 <div class="quoteGapMatrix-container">
 
 </div>
-

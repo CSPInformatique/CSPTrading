@@ -1,0 +1,19 @@
+.positions td.id{
+	width: 30px;
+}
+
+.positions td.name, .positions td.name input{
+	width: 200px;
+}
+
+.positions td.branch, .positions td.branch input{
+	width: 100px;
+}
+
+.positions td.registration, .positions td.registration input{
+	width: 200px;
+}
+
+.positions td.model, .positions td.model input{
+	width: 300px;
+}

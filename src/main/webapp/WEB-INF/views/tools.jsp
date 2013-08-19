@@ -1,4 +1,3 @@
-<!-- Example row of columns -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("li.tools").addClass("active");

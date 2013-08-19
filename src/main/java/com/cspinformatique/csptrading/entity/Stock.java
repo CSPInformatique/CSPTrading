@@ -9,11 +9,11 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Stock {
+	private long id;
 	private String symbol;
 	private String name;
 	private Market market;
 	private Date lastQuoteTimestamp;
-	private long id;
 	
 	public Stock() {
 	
@@ -48,7 +48,7 @@ public class Stock {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="market", referencedColumnName="name")
+	@JoinColumn(name="market")
 	public Market getMarket() {
 		return market;
 	}

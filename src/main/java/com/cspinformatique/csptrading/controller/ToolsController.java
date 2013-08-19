@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cspinformatique.csptrading.entity.Investment;
+import com.cspinformatique.csptrading.entity.Position;
 import com.cspinformatique.csptrading.entity.StockOrder;
-import com.cspinformatique.csptrading.service.InvestmentService;
+import com.cspinformatique.csptrading.service.PositionService;
 import com.cspinformatique.csptrading.service.QuoteGapService;
 import com.cspinformatique.csptrading.service.QuoteService;
 import com.cspinformatique.csptrading.service.StockService;
@@ -17,7 +17,7 @@ import com.cspinformatique.csptrading.service.StockService;
 @Controller
 @RequestMapping("/tools")
 public class ToolsController {
-	@Autowired private InvestmentService investmentService;
+	@Autowired private PositionService positionService;
 	@Autowired private QuoteGapService quoteGapService;
 	@Autowired private QuoteService quoteService;
 	@Autowired private StockService stockService;
@@ -40,11 +40,14 @@ public class ToolsController {
 	@RequestMapping(params="calculateInvestment")
 	public @ResponseBody String calculateInvestment(double buyPrice, double sellPrice, int quantity, double brokerFees){
 		return doubleDecimalFormat.format(
-			this.investmentService.calculateInvestment(
-				new Investment(
+			this.positionService.calculateInvestment(
+				new Position(
+					0,
 					null, 
-					new StockOrder(null, buyPrice, brokerFees, quantity), 
-					new StockOrder(null, sellPrice, brokerFees, quantity)
+					new StockOrder(0, null, buyPrice, brokerFees, quantity), 
+					new StockOrder(0, null, sellPrice, brokerFees, quantity),
+					null,
+					null
 				)
 			)
 		);
