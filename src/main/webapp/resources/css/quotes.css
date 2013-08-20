@@ -1,3 +1,9 @@
+.dateColumn, .stockColumn{ 
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+	
 .lvl1{
 	background-color: #00FF00;
 }
@@ -16,4 +22,8 @@
 
 .lvl5{
 	background-color: #003300;
+}
+	
+.spacer{
+	clear: left;
 }

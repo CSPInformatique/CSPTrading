@@ -19,6 +19,7 @@
     <link href="resources/css/libs/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="resources/css/cspTrading.css" rel="stylesheet">
     <link href="resources/css/positions.css" rel="stylesheet">
     <link href="resources/css/quotes.css" rel="stylesheet">
     <link href="resources/css/tools.css" rel="stylesheet">

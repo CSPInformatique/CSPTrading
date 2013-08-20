@@ -47,7 +47,7 @@ window.PositionListView = Backbone.View.extend({
 	},
     	
     render : function(){;
-    	var renderedContent = this.template({vehiculeList : this.collection.toJSON()});
+    	var renderedContent = this.template({positionList : this.collection.toJSON()});
         $(this.el).html(renderedContent);
         return this;
     }
