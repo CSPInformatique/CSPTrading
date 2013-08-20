@@ -3,8 +3,8 @@ package com.cspinformatique.csptrading.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,9 +32,9 @@ public class QuoteGapController {
 	@RequestMapping
 	public @ResponseBody Map<String, Map<String, QuoteGap>> getQuoteGaps(){
 		// Building the matrix.
-		Map<String, Map<String, QuoteGap>> quoteGapsDates = new HashMap<String, Map<String,QuoteGap>>();
+		Map<String, Map<String, QuoteGap>> quoteGapsDates = new TreeMap<String, Map<String,QuoteGap>>();
 		for(Date openedDay : MarketUtil.getOpenedDatesSinceDays(10)){
-			Map<String, QuoteGap> quoteGaps = new HashMap<String, QuoteGap>();
+			Map<String, QuoteGap> quoteGaps = new TreeMap<String, QuoteGap>();
 			for(Stock stock : this.stockService.getStocks()){
 				quoteGaps.put(stock.getSymbol(), this.quoteGapService.getQuoteGap(stock.getId(), openedDay));
 			}

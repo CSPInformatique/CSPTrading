@@ -41,13 +41,13 @@ public abstract class MarketUtil {
 		List<Date> openedDates = new ArrayList<Date>();
 		
 		while(days > 0){
-			calendar.add(Calendar.DAY_OF_MONTH, -1);
-			
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 			if(dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY){
 				openedDates.add(calendar.getTime());
 				--days;
 			}
+			
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
 		}
 		
 		return openedDates;

@@ -20,6 +20,7 @@
 
     <!-- Custom styles for this template -->
     <link href="resources/css/positions.css" rel="stylesheet">
+    <link href="resources/css/quotes.css" rel="stylesheet">
     <link href="resources/css/tools.css" rel="stylesheet">
     
 	<script src="resources/js/libs/jquery.js"></script>

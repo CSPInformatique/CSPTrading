@@ -27,7 +27,19 @@ window.QuoteGapMatrixView = Backbone.View.extend({
     			if(this.model.attributes[dateKey][stockKey] != null){
     				gap = this.model.attributes[dateKey][stockKey].gap.toFixed(2);
     			}
-    			$(".quoteGapMatrix-container > div").last().append("<div class=\"stockGap\">" + gap + "</div");
+    			var levelClass = "";
+    			if(gap != "N/A"){
+	    			if(parseFloat(gap) > 4){
+	    				levelClass = "lvl1";
+	    			}else if(parseFloat(gap) > 3){
+	    				levelClass = "lvl2";
+	    			}else if(parseFloat(gap) > 2){
+	    				levelClass = "lvl3";
+	    			}else if(parseFloat(gap) > 1){
+	    				levelClass = "lvl4";
+	    			}
+    			}
+    			$(".quoteGapMatrix-container > div").last().append("<div class=\"stockGap " + levelClass + "\">" + gap + "</div");
     		}
     		
     		stockTitleGenerated = true;
