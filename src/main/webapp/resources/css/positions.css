@@ -1,19 +1,24 @@
-.positions td.id{
+.positions td.id > *{
 	width: 30px;
 }
 
-.positions td.name, .positions td.name input{
+.positions td.quantity, .positions td.price, .positions td.brokerFees, .positions td.quantity *, .positions td.price *, .positions td.brokerFees *{
+	width: 80px;
+}
+
+.positions td.openDate, .positions td.openDate input {
+	width: 120px;
+}
+
+.positions td.closeDate, .positions td.closeDate input{
+	width: 120px;
+}
+
+.positions td.save > *{
+	width: 70px;
+}
+
+
+.positions td.stock > *, .positions td.stock > div{
 	width: 200px;
-}
-
-.positions td.branch, .positions td.branch input{
-	width: 100px;
-}
-
-.positions td.registration, .positions td.registration input{
-	width: 200px;
-}
-
-.positions td.model, .positions td.model input{
-	width: 300px;
 }

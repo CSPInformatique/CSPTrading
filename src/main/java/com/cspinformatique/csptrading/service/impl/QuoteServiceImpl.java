@@ -32,12 +32,22 @@ public class QuoteServiceImpl implements QuoteService {
 	}
 	
 	@Override
+	public Quote findLastQuote(long stockId){
+		return this.quoteRepository.findLastQuote(stockId);
+	}
+	
+	@Override
+	public Quote findLastQuoteBetweenDates(long stockId, Date fromDate, Date toDate){
+		return this.quoteRepository.findLastQuoteBetweenDates(stockId, fromDate, toDate);
+	}
+	
+	@Override
 	public Quote getQuote(String id){
 		return this.quoteRepository.findOne(id);
 	}
 	
 	@Override
-	public Quote loadLatestQuote(Stock stock){
+	public Quote loadLatestQuoteFromProvider(Stock stock){
 		try{
 			// Retreiving LECHO' web services and removing the head of the response.
 			String response =	new RestTemplate().getForObject(

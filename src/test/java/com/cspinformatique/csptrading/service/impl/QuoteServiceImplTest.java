@@ -26,6 +26,6 @@ public class QuoteServiceImplTest {
 	
 	@Test
 	public void retreiveStockQuoteTest(){
-		Assert.assertNotNull(quoteService.loadLatestQuote(new Stock(360097430, "", "", null, new Date())));
+		Assert.assertNotNull(quoteService.loadLatestQuoteFromProvider(new Stock(360097430, "", "", null, new Date())));
 	}
 }

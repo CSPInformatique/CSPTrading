@@ -7,7 +7,7 @@
 	});
 </script>
 <div class="row">
-	<div class="investmentCalculator col-lg-4">
+	<div class="investmentCalculator span4">
 		<h2>Investment calculator</h2>
 		<div>
 			<div class="buyPrice">
@@ -28,7 +28,7 @@
 		</div>
 	</div>
          
-	<div class="buyableQuantityCalculator col-lg-4">
+	<div class="buyableQuantityCalculator span4">
 		<h2>Buyable quantity calculator</h2>
 		<div>
        		<div class="investmentAmount">

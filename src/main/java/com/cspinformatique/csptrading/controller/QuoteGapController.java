@@ -19,21 +19,21 @@ import com.cspinformatique.csptrading.util.MarketUtil;
 
 @Controller
 @RequestMapping("/quoteGap")
-public class QuoteGapController {
+public class QuoteGapController extends CspTradingController {
 	@Autowired private QuoteGapService quoteGapService;
 	@Autowired private StockService stockService;
 	
 	private DateFormat dateFormat;
 	
 	public QuoteGapController(){
-		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
 	@RequestMapping
 	public @ResponseBody Map<String, Map<String, QuoteGap>> getQuoteGaps(){
 		// Building the matrix.
 		Map<String, Map<String, QuoteGap>> quoteGapsDates = new TreeMap<String, Map<String,QuoteGap>>();
-		for(Date openedDay : MarketUtil.getOpenedDatesSinceDays(10)){
+		for(Date openedDay : MarketUtil.getOpenedDatesSinceDays(5)){
 			Map<String, QuoteGap> quoteGaps = new TreeMap<String, QuoteGap>();
 			for(Stock stock : this.stockService.getStocks()){
 				quoteGaps.put(stock.getSymbol(), this.quoteGapService.getQuoteGap(stock.getId(), openedDay));

@@ -27,28 +27,40 @@ public class PositionServiceImplTest {
 		
 		Position investment1 =	new Position(
 									0,
+									null,
 									cspStock, 
 									new StockOrder(0, cspStock, 61.23d, 9.99d, 20),
 									new StockOrder(0, cspStock, 62.58d, 9.99d, 20),
 									null,
-									null
+									null,
+									null,
+									0,
+									0,
+									0,
+									0
 								);
 		
-		System.out.println(positionServiceImpl.calculateInvestment(investment1));
+		System.out.println(positionServiceImpl.calculateReturnOnInvestment(investment1));
 		
 		Position position =	new Position(
 									0,
+									null,
 									cspStock, 
 									new StockOrder(0, cspStock, 19.64d, 9.99d, 100),
 									new StockOrder(0, cspStock, 20.10d, 9.99d, 100),
 									null,
-									null
+									null,
+									null,
+									0,
+									0,
+									0,
+									0
 								);		
 
 		// (20.10 * 100 - 9.99 - 9.99) - 1964 = 16.02 
 		Assert.assertEquals(
 			26.02,
-			positionServiceImpl.calculateInvestment(position),
+			positionServiceImpl.calculateReturnOnInvestment(position),
 			0.00001d
 		);
 	}

@@ -12,7 +12,7 @@ public class StockOrderServiceImpl implements StockOrderService {
 	@Autowired private StockOrderRepository stockOrderRepository;
 	
 	@Override
-	public void saveStockOrder(StockOrder stockOrder) {
-		this.stockOrderRepository.save(stockOrder);
+	public StockOrder saveStockOrder(StockOrder stockOrder) {
+		return this.stockOrderRepository.save(stockOrder);
 	}
 }

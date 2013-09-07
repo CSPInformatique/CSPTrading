@@ -16,7 +16,7 @@ import com.cspinformatique.csptrading.service.StockService;
 
 @Controller
 @RequestMapping("/tools")
-public class ToolsController {
+public class ToolsController extends CspTradingController {
 	@Autowired private PositionService positionService;
 	@Autowired private QuoteGapService quoteGapService;
 	@Autowired private QuoteService quoteService;
@@ -40,14 +40,20 @@ public class ToolsController {
 	@RequestMapping(params="calculateInvestment")
 	public @ResponseBody String calculateInvestment(double buyPrice, double sellPrice, int quantity, double brokerFees){
 		return doubleDecimalFormat.format(
-			this.positionService.calculateInvestment(
+			this.positionService.calculateReturnOnInvestment(
 				new Position(
 					0,
+					null,
 					null, 
 					new StockOrder(0, null, buyPrice, brokerFees, quantity), 
 					new StockOrder(0, null, sellPrice, brokerFees, quantity),
 					null,
-					null
+					null,
+					null,
+					0,
+					0,
+					0,
+					0
 				)
 			)
 		);

@@ -23,6 +23,10 @@
 .lvl5{
 	background-color: #003300;
 }
+
+.quotePopover-container{
+	display: none;
+}
 	
 .spacer{
 	clear: left;

@@ -13,7 +13,11 @@ public interface QuoteService{
 	
 	public List<Quote> findByStockIdAndTimestampBetween(long stockId, Date fromDate, Date toDate);
 	
-	public Quote loadLatestQuote(Stock stock);
+	public Quote findLastQuote(long stockId);
+	
+	public Quote findLastQuoteBetweenDates(long stockId, Date fromDate, Date toDate);
+	
+	public Quote loadLatestQuoteFromProvider(Stock stock);
 	
 	public void saveQuote(Quote quote);
 }

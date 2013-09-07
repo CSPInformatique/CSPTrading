@@ -16,7 +16,7 @@ import com.cspinformatique.csptrading.service.PositionService;
 
 @Controller
 @RequestMapping("/position")
-public class PositionController {
+public class PositionController extends CspTradingController{
 	@Autowired private PositionService positionService;
 	
 	@ResponseStatus(HttpStatus.OK)
@@ -25,14 +25,18 @@ public class PositionController {
 		return this.positionService.getPositions();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, produces="text/html")
-	public String getPositionsPage(){
-		return "position";
+	@RequestMapping(method=RequestMethod.GET, produces="text/html", params="closed")
+	public String getClosedPositionsPage(){
+		return "position/closed";
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, produces="text/html")
+	public String getOpenPositionsPage(){
+		return "position/open";
+	}
 	
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method=RequestMethod.POST)
 	public void savePosition(@RequestBody Position position){
 		this.positionService.savePosition(position);
 	}

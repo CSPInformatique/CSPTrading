@@ -16,7 +16,9 @@
     <title>Jumbotron Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="resources/css/libs/bootstrap.css" rel="stylesheet">
+    <link href="resources/css/libs/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/css/libs/datetimepicker.css" rel="stylesheet">
+    <link href="resources/css/libs/select2/select2.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="resources/css/cspTrading.css" rel="stylesheet">
@@ -24,22 +26,14 @@
     <link href="resources/css/quotes.css" rel="stylesheet">
     <link href="resources/css/tools.css" rel="stylesheet">
     
-	<script src="resources/js/libs/jquery.js"></script>
+ 	<script src="resources/js/libs/jquery.js"></script>
 	<script src="resources/js/libs/underscore-min.js"></script>
 	<script src="resources/js/libs/underscore.string.js"></script>
     <script src="resources/js/libs/backbone-min.js"></script>
     <script src="resources/js/libs/bootstrap.min.js"></script>
-    
-    <script src="resources/js/tools.js"></script>
-	<script type="text/javascript">
-       	var ctx = "${pageContext.servletContext.contextPath}";
-       	
-    	_.templateSettings = {
-    	    interpolate: /\<\@\=(.+?)\@\>/gim,
-    	    evaluate: /\<\@([\s\S]+?)\@\>/gim,
-    	    escape: /\<\@\-(.+?)\@\>/gim
-    	};
-   	</script>
+    <script src="resources/js/libs/bootstrap-datetimepicker.min.js"></script>
+    <script src="resources/js/libs/select2.min.js"></script>
+    <script src="resources/js/libs/moment.js"></script>
   </head>
 
   <body>
@@ -52,14 +46,43 @@
 				<tiles:insertAttribute name="content" />
 			</div>
 			<tiles:insertAttribute name="footer" />
+			<div class="genericError-container modal hide fade">
+			<div class="modal-header">
+    			<button type="button" class="close" data-dismiss="modal">×</button>
+    				<h3 id="myModalLabel">Error</h3>
+  				</div>
+  				<div class="modal-body">
+					<div class="message "></div>
+				</div>
+			</div>
 		</div>
     </div>
     
-    <script src="resources/js/positions/Position.js"></script>
-    <script src="resources/js/positions/PositionView.js"></script>
+    <script src="resources/js/tools.js"></script>
+	<script type="text/javascript">
+       	var ctx = "${pageContext.servletContext.contextPath}";
+       	
+    	_.templateSettings = {
+    	    interpolate: /\<\@\=(.+?)\@\>/gim,
+    	    evaluate: /\<\@([\s\S]+?)\@\>/gim,
+    	    escape: /\<\@\-(.+?)\@\>/gim
+    	};
+   	</script>
+   	
+    <script src="resources/js/positions/position.js"></script>
+    <script src="resources/js/positions/positionView.js"></script>
+
+    <script src="resources/js/quotes/quote.js"></script>
+    <script src="resources/js/quotes/quoteView.js"></script>
     
-    <script src="resources/js/quotes/QuoteGap.js"></script>
-    <script src="resources/js/quotes/QuoteGapView.js"></script>
+    <script src="resources/js/quotes/quoteGap.js"></script>
+    <script src="resources/js/quotes/quoteGapView.js"></script>
+    
+    <script src="resources/js/stocks/stock.js"></script>
+    <script src="resources/js/stocks/stockView.js"></script>
+    
+    <script src="resources/js/wallets/wallet.js"></script>
+    <script src="resources/js/wallets/walletView.js"></script>
     
     <script src="resources/js/app.js"></script>
   </body>
