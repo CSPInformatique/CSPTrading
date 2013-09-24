@@ -23,12 +23,20 @@
 		<put-attribute name="content" value="/WEB-INF/views/positions/open.jsp" />
 	</definition>
 	
-	<definition name="quote" extends="menuTemplate">
-		<put-attribute name="content" value="/WEB-INF/views/quotes.jsp" />
+	<definition name="quotesLows" extends="menuTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/quotesLows.jsp" />
+	</definition>
+	
+	<definition name="quotesGaps" extends="menuTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/quotesGaps.jsp" />
 	</definition>
 		
 	<definition name="tools" extends="menuTemplate">
 		<put-attribute name="content" value="/WEB-INF/views/tools.jsp" />
+	</definition>
+
+	<definition name="stocks" extends="menuTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/stocks/stocks.jsp" />
 	</definition>
 	
 	<definition name="wallet" extends="menuTemplate">

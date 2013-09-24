@@ -19,7 +19,15 @@ public class Stock {
 	
 	}
 	
-	public Stock(long id, String symbol, String name, Market market, Date lastQuoteTimestamp) {
+	public Stock(
+		long id, 
+		String symbol, 
+		String name, 
+		Market market,
+		Date lastQuoteTimestamp,
+		Quote lastQuote, 
+		QuoteStats quoteStats
+	){
 		this.id = id;
 		this.symbol = symbol;
 		this.name = name;
@@ -31,18 +39,23 @@ public class Stock {
 	public long getId() {
 		return id;
 	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public String getSymbol() {
 		return symbol;
 	}
+	
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -52,12 +65,15 @@ public class Stock {
 	public Market getMarket() {
 		return market;
 	}
+	
 	public void setMarket(Market market) {
 		this.market = market;
 	}
+	
 	public Date getLastQuoteTimestamp() {
 		return lastQuoteTimestamp;
 	}
+	
 	public void setLastQuoteTimestamp(Date lastQuoteTimestamp) {
 		this.lastQuoteTimestamp = lastQuoteTimestamp;
 	}

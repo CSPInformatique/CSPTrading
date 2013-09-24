@@ -32,6 +32,7 @@
     <script src="resources/js/libs/backbone-min.js"></script>
     <script src="resources/js/libs/bootstrap.min.js"></script>
     <script src="resources/js/libs/bootstrap-datetimepicker.min.js"></script>
+    <script src="resources/js/libs/dygraph-combined.js"></script>
     <script src="resources/js/libs/select2.min.js"></script>
     <script src="resources/js/libs/moment.js"></script>
   </head>

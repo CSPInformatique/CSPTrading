@@ -22,3 +22,26 @@ window.MarketsStocksComboBoxView = Backbone.View.extend({
         return this;
     }
 });
+
+window.StocksView = Backbone.View.extend({
+	el : ".stocks-container",
+    
+    initialize : function() {
+    	this.collection.fetch();
+        this.template = _.template($("#stocks-template").html());
+        
+        /*--- binding ---*/
+        _.bindAll(this, "render");
+        this.collection.bind("change", this.render);
+        this.collection.bind("add", this.render);
+        this.collection.bind("remove", this.render);
+        /*---------------*/
+    },
+    	
+    render : function(){;
+    	var renderedContent = this.template({stocks : this.collection.toJSON()});
+        $(this.el).html(renderedContent);
+        
+        return this;
+    }
+});

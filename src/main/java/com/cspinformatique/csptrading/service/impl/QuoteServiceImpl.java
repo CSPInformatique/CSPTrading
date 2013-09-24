@@ -7,25 +7,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cspinformatique.csptrading.entity.Market;
 import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.QuoteResponse;
 import com.cspinformatique.csptrading.entity.Stock;
-import com.cspinformatique.csptrading.repository.mongo.QuoteRepository;
 import com.cspinformatique.csptrading.service.QuoteService;
+import com.cspinformatique.csptrading.service.StockService;
+import com.cspinformatique.csptrading.util.MarketUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class QuoteServiceImpl implements QuoteService {
 	private static final String LECHO_URL = "http://1.ajax.lecho.be/rtq/?reqtype=simple&quotes=";
 	
-	@Autowired private QuoteRepository quoteRepository;
+	@Autowired private com.cspinformatique.csptrading.repository.mongo.QuoteRepository quoteRepository;
+	
 	@Autowired private RestTemplate restTemplate;
 	@Autowired private ObjectMapper objectMapper;
+	@Autowired private StockService stockService;
+	
+	@Override
+	public double getAverageLowQuote(Stock stock, List<Date> dates){
+		Market market = stock.getMarket();
+		
+		double sumLast = 0;
+		int count = 0;
+		for(Date date : dates){
+			Quote quote =	this.findLastQuoteBetweenDates(
+								stock.getId(), 
+								MarketUtil.getOpeningTime(market, date), 
+								MarketUtil.getClosingTime(market, date)
+							);
+			
+			if(quote != null){
+				++count;
+				sumLast +=	quote.getLow();
+			}
+		}
+		
+		return sumLast / count;
+	}
 	
 	@Override
 	public double getBuyableQuantity(double investment, double stockPrice){
 		return Math.floor(investment / stockPrice);
 	}
+	
 	@Override
 	public List<Quote> findByStockIdAndTimestampBetween(long stockId, Date fromDate, Date toDate){
 		return this.quoteRepository.findByStockIdAndTimestampBetweenOrderByTimestampAsc(stockId, fromDate, toDate);

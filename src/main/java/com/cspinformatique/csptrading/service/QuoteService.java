@@ -6,7 +6,9 @@ import java.util.List;
 import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.Stock;
 
-public interface QuoteService{
+public interface QuoteService{	
+	public double getAverageLowQuote(Stock stock, List<Date> dates);
+	
 	public double getBuyableQuantity(double investment, double price);
 	
 	public Quote getQuote(String id);

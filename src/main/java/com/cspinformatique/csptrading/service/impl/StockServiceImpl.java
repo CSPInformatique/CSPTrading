@@ -18,6 +18,7 @@ import com.cspinformatique.csptrading.repository.sql.StockRepository;
 import com.cspinformatique.csptrading.service.MarketService;
 import com.cspinformatique.csptrading.service.QuoteGapService;
 import com.cspinformatique.csptrading.service.QuoteService;
+import com.cspinformatique.csptrading.service.QuoteStatsService;
 import com.cspinformatique.csptrading.service.StockService;
 import com.cspinformatique.csptrading.thread.QuotesProcessorThread;
 
@@ -27,6 +28,7 @@ public class StockServiceImpl implements StockService {
 	@Autowired private StockRepository stockRepository;
 	@Autowired private QuoteGapService quoteGapService;
 	@Autowired private QuoteService quoteService;
+	@Autowired private QuoteStatsService quoteStatsService;
 	
 	private QuotesProcessorThread quotesProcessorsThread;
 	
@@ -44,7 +46,7 @@ public class StockServiceImpl implements StockService {
 		QuoteGap largestQuoteGap = null;
 		
 		for(Stock stock : this.stockRepository.findAll()){
-			QuoteGap quoteGap = this.quoteGapService.getQuoteGap(stock.getId(), date);
+			QuoteGap quoteGap = this.quoteGapService.getQuoteGap(stock, date);
 			
 			if(largestQuoteGap == null || quoteGap.getGap() > largestQuoteGap.getGap()){
 				stockWithLargestQuoteGap = stock;
@@ -53,6 +55,11 @@ public class StockServiceImpl implements StockService {
 		}
 		
 		return stockWithLargestQuoteGap;
+	}
+	
+	@Override
+	public double getAverageLowQuote(Stock stock, List<Date> dates){
+		return this.quoteService.getAverageLowQuote(stock, dates);
 	}
 	
 	@Override
@@ -97,15 +104,13 @@ public class StockServiceImpl implements StockService {
 		// Retreive the latest quote before persisting it.
 		quoteService.saveQuote(quoteService.loadLatestQuoteFromProvider(stock));
 		
-		// Update the last quote timestamp.
-		stock.setLastQuoteTimestamp(new Date());
-		this.saveStock(stock);
+		stock = this.saveStock(stock);
+		
+		quoteStatsService.generateQuoteStats(stock, new Date());
 	}
 	
 	@Override
-	public void saveStock(Stock stock) {
-		this.stockRepository.save(stock);
-		
-		this.stockRepository.flush();
+	public Stock saveStock(Stock stock) {
+		return this.stockRepository.save(stock);
 	}
 }

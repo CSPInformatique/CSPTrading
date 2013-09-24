@@ -48,6 +48,8 @@ window.QuoteGapMatrixView = Backbone.View.extend({
     				">" + 
     					gap + 
     				"</div"
+    			).popover({
+    				html: ""}
     			);
     			
     			console.log($(".quoteGapMatrix-container > div > div").last().html());

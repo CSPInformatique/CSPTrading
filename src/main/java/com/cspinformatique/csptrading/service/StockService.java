@@ -11,6 +11,8 @@ public interface StockService {
 	
 	public Stock findStockWithLargestQuoteGap(Date date);
 	
+	public double getAverageLowQuote(Stock stock, List<Date> dates);
+	
 	public List<MarketStocks> getMarketsStocks();
 	
 	public Stock getStock(long stockId);
@@ -21,5 +23,5 @@ public interface StockService {
 	
 	public void refreshStockQuote(Stock stock);
 	
-	public void saveStock(Stock stock);	
+	public Stock saveStock(Stock stock);	
 }

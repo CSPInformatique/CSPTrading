@@ -20,6 +20,8 @@
 				<li><a href="position">Open positions</a></li>
 				<li><a href="position?closed">Closed positions</a></li>
       		</ul>
+      	</li>
+      	<li class="stocks"><a href="stock">Stocks</a></li>
 		<li class="quotes"><a href="quote">Quotes</a></li>
 		<li class="tools"><a href="tools">Tools</a></li>
       </ul>

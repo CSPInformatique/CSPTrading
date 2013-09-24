@@ -7,5 +7,9 @@ window.Stock = Backbone.Model.extend({
 });
 
 window.MarketStocksList = Backbone.Collection.extend({
+	url: ctx + '/stock.json?market'
+});
+
+window.StocksList = Backbone.Collection.extend({
 	url: ctx + '/stock.json'
 });
