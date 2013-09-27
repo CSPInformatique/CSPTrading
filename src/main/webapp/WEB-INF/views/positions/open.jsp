@@ -30,7 +30,6 @@
 			<th>Current Value</th>
 			<th>Performance</th>
 			<th>Open Date</th>
-			<th>Close Date</th>
 			<th>&nbsp;</th>
 		</tr>
 		<@ _.each(positionList, function(position) { @>
@@ -44,7 +43,6 @@
 				<td class="currentValue"><div><@= position.currentValue @></div></td>
 				<td class="performance"><div><@= position.performance @></div></td>
 				<td class="openDate"><div><@= position.openDate @></div></td>
-				<td class="closeDate"><div><@= position.closeDate @></div></td>
 				<td><button class="closePosition btn btn-primary" data-position="<@= position.id @>">Close</button></td>
 			</tr>
 		<@}); @>
@@ -115,9 +113,6 @@
 		<td class="currentValue"><div>0</div></td>
 		<td class="performance"><div>0</div></td>
 		<td class="openDate">
-			<input size="16" type="text" readonly>
-		</td>
-		<td class="closeDate">
 			<input size="16" type="text" readonly>
 		</td>
 		<td class="save"><button class="btn btn-primary">Save</button></td>
