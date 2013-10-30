@@ -1,63 +1,75 @@
 package com.cspinformatique.csptrading.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Quote {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Quote implements Serializable{
+	private static final long serialVersionUID = -748203290803732969L;
+	
+	private ID _id;
 	private long stockId;
-	private String symbol;
 	private Date timestamp;
 	
+	private String symbol;	
 	private double open;
-	private String time;
-	private double pct;
-	private double last;
+	private double close;
 	private long volume;
 	private double high;
-	private double ask;
 	private double low;
-	private double bid;
-	private double prev;
 	
 	public Quote(){
 		
 	}
 
 	public Quote(
-		long stockId, 
-		String symbol, 
-		Date timestamp, 
+		long stockId,
+		Date timestamp,
+		String symbol,
 		double open,
-		String time, 
-		double pct, 
-		double last, 
+		double close,
 		long volume, 
 		double high,
-		double ask, 
-		double low, 
-		double bid, 
-		double prev
+		double low
 	) {
+		this._id = new ID(stockId, timestamp);
 		this.stockId = stockId;
-		this.symbol = symbol;
 		this.timestamp = timestamp;
+		this.symbol = symbol;
 		this.open = open;
-		this.time = time;
-		this.pct = pct;
-		this.last = last;
+		this.close = close;
 		this.volume = volume;
 		this.high = high;
-		this.ask = ask;
 		this.low = low;
-		this.bid = bid;
-		this.prev = prev;
 	}
 
+	public ID get_id() {
+		return _id;
+	}
+
+	public void set_id(ID _id) {
+		this._id = _id;
+	}
+
+	@Id
 	public long getStockId() {
-		return stockId;
+		return this.stockId;
 	}
-
+	
 	public void setStockId(long stockId) {
 		this.stockId = stockId;
+	}
+	
+	@Id
+	public Date getTimestamp() {
+		return this.timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getSymbol() {
@@ -68,14 +80,6 @@ public class Quote {
 		this.symbol = symbol;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public double getOpen() {
 		return open;
 	}
@@ -84,28 +88,12 @@ public class Quote {
 		this.open = open;
 	}
 
-	public String getTime() {
-		return time;
+	public double getClose() {
+		return close;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	public double getPct() {
-		return pct;
-	}
-
-	public void setPct(double pct) {
-		this.pct = pct;
-	}
-
-	public double getLast() {
-		return last;
-	}
-
-	public void setLast(double last) {
-		this.last = last;
+	public void setClose(double close) {
+		this.close = close;
 	}
 
 	public long getVolume() {
@@ -124,14 +112,6 @@ public class Quote {
 		this.high = high;
 	}
 
-	public double getAsk() {
-		return ask;
-	}
-
-	public void setAsk(double ask) {
-		this.ask = ask;
-	}
-
 	public double getLow() {
 		return low;
 	}
@@ -139,20 +119,131 @@ public class Quote {
 	public void setLow(double low) {
 		this.low = low;
 	}
+	
+	public static class ID implements Serializable {
+		private static final long serialVersionUID = 5611145650487836596L;
+		
+		private long stockId;
+		private Date timestamp;
+		
+		public ID(){
+			
+		}
+		
+		public ID(long stockId, Date timestamp){
+			this.stockId = stockId;
+			this.timestamp = timestamp;
+		}
 
-	public double getBid() {
-		return bid;
+		public long getStockId() {
+			return stockId;
+		}
+
+		public void setStockId(long stockId) {
+			this.stockId = stockId;
+		}
+
+		public Date getTimestamp() {
+			return timestamp;
+		}
+
+		public void setTimestamp(Date timestamp) {
+			this.timestamp = timestamp;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + (int) (stockId ^ (stockId >>> 32));
+			result = prime * result
+					+ ((timestamp == null) ? 0 : timestamp.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			ID other = (ID) obj;
+			if (stockId != other.stockId)
+				return false;
+			if (timestamp == null) {
+				if (other.timestamp != null)
+					return false;
+			} else if (!timestamp.equals(other.timestamp))
+				return false;
+			return true;
+		}
 	}
 
-	public void setBid(double bid) {
-		this.bid = bid;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(close);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(high);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(low);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(open);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (int) (stockId ^ (stockId >>> 32));
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result
+				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + (int) (volume ^ (volume >>> 32));
+		return result;
 	}
 
-	public double getPrev() {
-		return prev;
-	}
-
-	public void setPrev(double prev) {
-		this.prev = prev;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Quote other = (Quote) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		if (Double.doubleToLongBits(close) != Double
+				.doubleToLongBits(other.close))
+			return false;
+		if (Double.doubleToLongBits(high) != Double
+				.doubleToLongBits(other.high))
+			return false;
+		if (Double.doubleToLongBits(low) != Double.doubleToLongBits(other.low))
+			return false;
+		if (Double.doubleToLongBits(open) != Double
+				.doubleToLongBits(other.open))
+			return false;
+		if (stockId != other.stockId)
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		if (volume != other.volume)
+			return false;
+		return true;
 	}
 }
+
+

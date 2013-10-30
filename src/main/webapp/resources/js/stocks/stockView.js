@@ -45,3 +45,26 @@ window.StocksView = Backbone.View.extend({
         return this;
     }
 });
+
+window.StocksStatsView = Backbone.View.extend({
+	el : ".stocksStats-container",
+    
+    initialize : function() {
+    	this.collection.fetch();
+        this.template = _.template($("#stocksStats-template").html());
+        
+        /*--- binding ---*/
+        _.bindAll(this, "render");
+        this.collection.bind("change", this.render);
+        this.collection.bind("add", this.render);
+        this.collection.bind("remove", this.render);
+        /*---------------*/
+    },
+    	
+    render : function(){;
+    	var renderedContent = this.template({stocksStats : this.collection.toJSON()});
+        $(this.el).html(renderedContent);
+        
+        return this;
+    }
+});

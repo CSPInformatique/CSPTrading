@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>CSP Trading</title>
 
     <!-- Bootstrap core CSS -->
     <link href="resources/css/libs/bootstrap.min.css" rel="stylesheet">
@@ -78,6 +78,8 @@
     
     <script src="resources/js/quotes/quoteGap.js"></script>
     <script src="resources/js/quotes/quoteGapView.js"></script>
+    
+    <script src="resources/js/quotes/quoteProcessorStats.js"></script>
     
     <script src="resources/js/stocks/stock.js"></script>
     <script src="resources/js/stocks/stockView.js"></script>

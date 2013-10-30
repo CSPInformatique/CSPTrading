@@ -6,7 +6,7 @@
 	});
 </script>
 <script type="text/template" id="walletList-template">
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<th>#</th>
 			<th>Name</th>

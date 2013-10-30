@@ -22,7 +22,7 @@ public class QuoteRepositoryImpl implements QuoteRepositoryCustom{
 		return mongoTemplate.findOne(
 			new Query(
 				Criteria.where("stockId").is(stockId))
-					.with(new Sort(Direction.DESC, "timestamp"))
+					.with(new Sort(Direction.DESC, "id.timestamp"))
 					.limit(1), 
 			Quote.class
 		);
@@ -34,7 +34,7 @@ public class QuoteRepositoryImpl implements QuoteRepositoryCustom{
 	    	Aggregation.newAggregation(
 	    		Aggregation.match(
 					Criteria.where("stockId").is(stockId)
-					.and("timestamp").gte(fromDate)
+					.and("id.timestamp").gte(fromDate)
 					.lte(toDate)
 				),
 				Aggregation.group("stockId").avg("last").as("last"),
@@ -47,7 +47,7 @@ public class QuoteRepositoryImpl implements QuoteRepositoryCustom{
 	    if(result == null || result.getUniqueMappedResult() == null){
 	    	return 0d;
 	    }else{
-	    	return result.getUniqueMappedResult().getLast();
+	    	return result.getUniqueMappedResult().getClose();
 	    }
 	}
 	

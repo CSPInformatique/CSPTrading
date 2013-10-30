@@ -10,7 +10,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="brand" href="#">CSP Trading</a>
+    <a class="brand">CSP Trading</a>
     <div class="nav-collapse collapse">
       <ul class="nav">
       	<li class="wallets"><a href="wallet">Wallets</a></li>
@@ -21,8 +21,9 @@
 				<li><a href="position?closed">Closed positions</a></li>
       		</ul>
       	</li>
-      	<li class="stocks"><a href="stock">Stocks</a></li>
+      	<li class="stocks"><a href="stockStats">Stocks</a></li>
 		<li class="quotes"><a href="quote">Quotes</a></li>
+		<li class="quoteProcessor"><a href="quoteProcessor">Quote Processor</a></li>
 		<li class="tools"><a href="tools">Tools</a></li>
       </ul>
     </div><!--/.nav-collapse -->

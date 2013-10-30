@@ -1,10 +1,14 @@
 package com.cspinformatique.csptrading.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Market {
+public class Market implements Serializable {
+	private static final long serialVersionUID = -6720215322297989970L;
+	
 	private String name;
 	private int closingHour;
 	private int closingMinute;
@@ -68,5 +72,42 @@ public class Market {
 
 	public void setOpeningMinute(int openingMinute) {
 		this.openingMinute = openingMinute;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + closingHour;
+		result = prime * result + closingMinute;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + openingHour;
+		result = prime * result + openingMinute;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Market other = (Market) obj;
+		if (closingHour != other.closingHour)
+			return false;
+		if (closingMinute != other.closingMinute)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (openingHour != other.openingHour)
+			return false;
+		if (openingMinute != other.openingMinute)
+			return false;
+		return true;
 	}
 }

@@ -19,13 +19,14 @@
 	});
 </script>
 <script type="text/template" id="openPositionList-template">
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<th>#</th>
 			<th>Stock</th>
 			<th>Price</th>
 			<th>Quantity</th>
-			<th>Broker Fees</th>
+			<th>Initial Value</th>
+			<th>Broker Fees</th>			
 			<th>Last Quote</th>
 			<th>Current Value</th>
 			<th>Performance</th>
@@ -38,8 +39,9 @@
 				<td class="stock"><div><@= position.stock.symbol @></div></td>
 				<td class="price"><div><@= position.buyOrder.price @></div></td>
 				<td class="quantity"><div><@= position.buyOrder.quantity @></div></td>
+				<td class="initialValue"><div><@= position.openValue @></div></td>
 				<td class="brokerFees"><div><@= position.buyOrder.brokerFees @></div></td>
-				<td class="lastQuote"><div><@= position.lastQuote.last @></div></td>
+				<td class="lastQuote"><div><@= position.lastQuote.close @></div></td>
 				<td class="currentValue"><div><@= position.currentValue @></div></td>
 				<td class="performance"><div><@= position.performance @></div></td>
 				<td class="openDate"><div><@= position.openDate @></div></td>
@@ -108,6 +110,7 @@
 		<td class="stock stocksComboBox-container"></td>
 		<td class="price"><input type="text" /></td>
 		<td class="quantity"><input type="text" /></td>
+		<td class="initialValue"><div>0</div></td>
 		<td class="brokerFees"><input type="text" /></td>
 		<td class="lastQuote"><div>0</div></td>
 		<td class="currentValue"><div>0</div></td>

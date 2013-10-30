@@ -7,19 +7,15 @@ import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.Stock;
 
 public interface QuoteService{	
-	public double getAverageLowQuote(Stock stock, List<Date> dates);
+	public double getAverageLowQuote(Stock stock, List<Quote> quotes);
 	
 	public double getBuyableQuantity(double investment, double price);
 	
-	public Quote getQuote(String id);
+	public void loadLatestQuoteFromProvider(Stock stock);
 	
-	public List<Quote> findByStockIdAndTimestampBetween(long stockId, Date fromDate, Date toDate);
-	
-	public Quote findLastQuote(long stockId);
-	
-	public Quote findLastQuoteBetweenDates(long stockId, Date fromDate, Date toDate);
-	
-	public Quote loadLatestQuoteFromProvider(Stock stock);
+	public List<Quote> loadQuotesFromProvider(Stock stock, Date startDate, Date endDate);
 	
 	public void saveQuote(Quote quote);
+	
+	public void saveQuotes(List<Quote> quotes);
 }

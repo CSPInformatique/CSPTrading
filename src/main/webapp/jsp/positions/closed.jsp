@@ -19,7 +19,7 @@
 	});
 </script>
 <script type="text/template" id="closedPositionList-template">
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<th>#</th>
 			<th>Stock</th>

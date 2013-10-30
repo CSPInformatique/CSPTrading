@@ -1,5 +1,6 @@
 package com.cspinformatique.csptrading.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,9 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Position {
+public class Position implements Serializable{
+	private static final long serialVersionUID = 944054010974704021L;
+	
 	private int id;
 	private Stock stock;
 	private StockOrder buyOrder;
@@ -171,6 +174,96 @@ public class Position {
 
 	public void setPerformance(double performance) {
 		this.performance = performance;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((buyOrder == null) ? 0 : buyOrder.hashCode());
+		result = prime * result
+				+ ((closeDate == null) ? 0 : closeDate.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(currentValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + id;
+		result = prime * result
+				+ ((lastQuote == null) ? 0 : lastQuote.hashCode());
+		result = prime * result
+				+ ((openDate == null) ? 0 : openDate.hashCode());
+		temp = Double.doubleToLongBits(openValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(performance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(returnOnInvestment);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result
+				+ ((sellOrder == null) ? 0 : sellOrder.hashCode());
+		result = prime * result + ((stock == null) ? 0 : stock.hashCode());
+		result = prime * result + ((wallet == null) ? 0 : wallet.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (buyOrder == null) {
+			if (other.buyOrder != null)
+				return false;
+		} else if (!buyOrder.equals(other.buyOrder))
+			return false;
+		if (closeDate == null) {
+			if (other.closeDate != null)
+				return false;
+		} else if (!closeDate.equals(other.closeDate))
+			return false;
+		if (Double.doubleToLongBits(currentValue) != Double
+				.doubleToLongBits(other.currentValue))
+			return false;
+		if (id != other.id)
+			return false;
+		if (lastQuote == null) {
+			if (other.lastQuote != null)
+				return false;
+		} else if (!lastQuote.equals(other.lastQuote))
+			return false;
+		if (openDate == null) {
+			if (other.openDate != null)
+				return false;
+		} else if (!openDate.equals(other.openDate))
+			return false;
+		if (Double.doubleToLongBits(openValue) != Double
+				.doubleToLongBits(other.openValue))
+			return false;
+		if (Double.doubleToLongBits(performance) != Double
+				.doubleToLongBits(other.performance))
+			return false;
+		if (Double.doubleToLongBits(returnOnInvestment) != Double
+				.doubleToLongBits(other.returnOnInvestment))
+			return false;
+		if (sellOrder == null) {
+			if (other.sellOrder != null)
+				return false;
+		} else if (!sellOrder.equals(other.sellOrder))
+			return false;
+		if (stock == null) {
+			if (other.stock != null)
+				return false;
+		} else if (!stock.equals(other.stock))
+			return false;
+		if (wallet == null) {
+			if (other.wallet != null)
+				return false;
+		} else if (!wallet.equals(other.wallet))
+			return false;
+		return true;
 	}
 	
 	

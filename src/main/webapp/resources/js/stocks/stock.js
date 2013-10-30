@@ -13,3 +13,10 @@ window.MarketStocksList = Backbone.Collection.extend({
 window.StocksList = Backbone.Collection.extend({
 	url: ctx + '/stock.json'
 });
+
+window.StocksStatsList = Backbone.Collection.extend({
+	comparator: function(stockStats){
+		return stockStats.get("lowAverageVariation");
+	},
+	url: ctx + '/stockStats.json'
+});

@@ -4,16 +4,20 @@ import java.util.Date;
 import java.util.List;
 
 import com.cspinformatique.csptrading.entity.MarketStocks;
+import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.Stock;
+import com.cspinformatique.csptrading.thread.QuotesProcessor;
 
 public interface StockService {
-	public List<Stock> findStocksToRefresh();
+	public List<Stock> findStocksWithPositions();
 	
 	public Stock findStockWithLargestQuoteGap(Date date);
 	
-	public double getAverageLowQuote(Stock stock, List<Date> dates);
+	public double getAverageLowQuote(Stock stock, List<Quote> quotes);
 	
 	public List<MarketStocks> getMarketsStocks();
+	
+	public QuotesProcessor getQuotesProcessor();
 	
 	public Stock getStock(long stockId);
 	
@@ -24,4 +28,6 @@ public interface StockService {
 	public void refreshStockQuote(Stock stock);
 	
 	public Stock saveStock(Stock stock);	
+	
+	public void startQuoteProcessor();
 }

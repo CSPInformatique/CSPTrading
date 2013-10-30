@@ -1,5 +1,6 @@
 package com.cspinformatique.csptrading.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cspinformatique.csptrading.entity.Position;
+import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.entity.Wallet;
 import com.cspinformatique.csptrading.repository.sql.PositionRepository;
 import com.cspinformatique.csptrading.service.PositionService;
@@ -36,6 +38,31 @@ public class PositionServiceImpl implements PositionService {
 				position.getBuyOrder().getQuantity()
 			)
 		);
+	}
+	
+	@Override
+	public void closePosition(Position position, Date closeDate, double price){
+		position.setCloseDate(closeDate);
+		
+		StockOrder sellOrder =	new StockOrder(
+									0, 
+									position.getStock(), 
+									price, 
+									position.getBuyOrder().getBrokerFees(), 
+									position.getBuyOrder().getQuantity()
+								);
+		
+		position.setSellOrder(sellOrder);
+		
+		Wallet wallet = position.getWallet();
+		
+		wallet.setCurrentAmount(
+			wallet.getCurrentAmount() + 
+			(position.getSellOrder().getQuantity() * position.getSellOrder().getPrice()) - 
+			position.getSellOrder().getBrokerFees()
+		);
+		
+		this.walletService.saveWallet(wallet);
 	}
 	
 	@Override

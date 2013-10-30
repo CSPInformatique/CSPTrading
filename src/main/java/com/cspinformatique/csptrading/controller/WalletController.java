@@ -28,7 +28,7 @@ public class WalletController extends CspTradingController {
 	
 	@Autowired private PositionController positionController;
 	
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(
 		method=RequestMethod.POST, 
 		params="close", 

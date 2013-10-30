@@ -2,9 +2,9 @@ window.Position = Backbone.Model.extend({
 	idAttribute: "id",
 	
 	url : function() {
-		var base = ctx + '/position.json';
+		var base = ctx + '/position';
 		if (this.isNew()) return base;
-		return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id;
+		return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.id + ".json";
 	}
 });
 

@@ -119,19 +119,23 @@ window.WalletOpenPositionListView = Backbone.View.extend({
         	});
         	
         	$(".closePosition button.closeButton").click(function(){
-        		var url = view.collection.get(positionId).url().toString() + 
-					"?close&date=" + moment($(".closePosition .closeDate input").val(), "YYYY-MM-DD HH:mm") + 
-					"&price=" + parseFloat($(".closePosition .price input").val());
-        		
-        		$.ajax({
-					type: "POST",
-					url: url,
-					data: "",
-					success: function(){
-        				view.collection.fetch();
-    					$(".closePositionModal-container").modal("hide");
-        			}
-    			});
+        		var position = new Position();
+        		position.id = positionId;
+        		position.fetch({success: function(){
+        			var url = position.url() + 
+        				"?close&closeDate=" + $(".closePosition .closeDate input").val() + 
+						"&price=" + parseFloat($(".closePosition .price input").val());
+        			
+            		$.ajax({
+    					type: "POST",
+    					url: url,
+    					data: "",
+    					success: function(){
+            				view.collection.fetch();
+        					$(".closePositionModal-container").modal("hide");
+            			}
+        			});
+        		}});
         	});
         });
         

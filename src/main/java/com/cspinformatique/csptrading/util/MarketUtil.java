@@ -22,16 +22,39 @@ public abstract class MarketUtil {
 	public static Date getOpeningTime(Market market, Date date){
 		Calendar openingTime = Calendar.getInstance();
 		openingTime.setTime(date);
-		openingTime.set(Calendar.MINUTE, market.getOpeningHour());
-		openingTime.set(Calendar.HOUR_OF_DAY, market.getOpeningMinute());
+		openingTime.set(Calendar.HOUR_OF_DAY, market.getOpeningHour());
+		openingTime.set(Calendar.MINUTE, market.getOpeningMinute());
 		openingTime.set(Calendar.SECOND, 0);
 		openingTime.set(Calendar.MILLISECOND, 0);
 		
 		return openingTime.getTime();
 	}
 	
-	public static List<Date> getOpenedDatesSinceDays(int days){
+	public static List<Date> getOpenedDates(Date startDate, Date endDate){	
+		List<Date> openedDates = new ArrayList<Date>();
+		
 		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date(startDate.getTime()));
+		
+		while(calendar.getTime().getTime() < endDate.getTime()){
+			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			if(dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY){
+				openedDates.add(calendar.getTime());
+			}
+
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		
+		return openedDates;
+	}
+	
+	public static List<Date> getOpenedDatesSinceDays(int days){
+		return MarketUtil.getOpenedDatesSinceDays(days, new Date());
+	}
+	
+	public static List<Date> getOpenedDatesSinceDays(int days, Date startDate){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
 		
 		calendar.set(Calendar.HOUR_OF_DAY, 9);
 		calendar.set(Calendar.MINUTE, 0);

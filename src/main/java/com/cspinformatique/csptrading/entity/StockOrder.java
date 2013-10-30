@@ -1,5 +1,7 @@
 package com.cspinformatique.csptrading.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class StockOrder {
+public class StockOrder implements Serializable {
+	private static final long serialVersionUID = 4272190878048444649L;
+	
 	private int id;
 	private Stock stock;
 	private double price;
@@ -69,5 +73,47 @@ public class StockOrder {
 	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(brokerFees);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + id;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + quantity;
+		result = prime * result + ((stock == null) ? 0 : stock.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StockOrder other = (StockOrder) obj;
+		if (Double.doubleToLongBits(brokerFees) != Double
+				.doubleToLongBits(other.brokerFees))
+			return false;
+		if (id != other.id)
+			return false;
+		if (Double.doubleToLongBits(price) != Double
+				.doubleToLongBits(other.price))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		if (stock == null) {
+			if (other.stock != null)
+				return false;
+		} else if (!stock.equals(other.stock))
+			return false;
+		return true;
 	}
 }

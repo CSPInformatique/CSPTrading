@@ -19,11 +19,6 @@ import com.cspinformatique.csptrading.service.StockService;
 public class StockController extends CspTradingController {
 	@Autowired private StockService stockService;
 	
-	@RequestMapping(method=RequestMethod.GET, produces="text/html")
-	public String getStocksPage(){
-		return "stocks";
-	}
-	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method=RequestMethod.GET, produces="application/json", params="market")
 	public @ResponseBody List<MarketStocks> getMarketsStocks(){

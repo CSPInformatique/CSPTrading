@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.entity.Wallet;
 import com.cspinformatique.csptrading.exception.InsufficientFundsException;
-import com.cspinformatique.csptrading.thread.QuotesProcessorThread;
 
 public abstract class CspTradingController {
-	private static final Logger logger = LoggerFactory.getLogger(QuotesProcessorThread.class);
+	private static final Logger logger = LoggerFactory.getLogger(CspTradingController.class);
 	
 	@ResponseBody
 	@ExceptionHandler(Exception.class)

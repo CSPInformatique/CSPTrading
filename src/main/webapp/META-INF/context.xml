@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
+	<Parameter name="com.cspinformatique.csptrading.activetick.apiKey" value="AA483C4FF6E34FCAA7B813D7620C03AD" override="false" />
+	
+	<Parameter name="com.cspinformatique.csptrading.activetick.user" value="daniellavoie" override="false" />
+
+	<Parameter name="com.cspinformatique.csptrading.activetick.password" value="1QAZxsw2" override="false" />
+
     <Resource 
     	name="jdbc/cspTrading"
         auth="Container"

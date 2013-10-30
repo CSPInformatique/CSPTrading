@@ -6,13 +6,17 @@ import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cspinformatique.csptrading.activetick.ActiveTickConnector;
+import com.cspinformatique.csptrading.activetick.QuoteRequestor;
 import com.cspinformatique.csptrading.entity.Position;
+import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.service.PositionService;
 import com.cspinformatique.csptrading.service.QuoteService;
 
 @Component
 public class PositionListener implements EntityListener<Position>{
+	@Autowired private ActiveTickConnector activeTickConnector;
 	@Autowired private PositionService positionService;
 	@Autowired private QuoteService quoteService;
 	
@@ -21,7 +25,10 @@ public class PositionListener implements EntityListener<Position>{
 	@Override
 	public void handlePostLoad(Position position) {
 		try{
-			position.setLastQuote(quoteService.findLastQuote(position.getStock().getId()));
+			// Retreives last price from Active Tick Web Service.
+			Quote lastQuote = new Quote();
+			lastQuote.setClose(new QuoteRequestor(position.getStock(), activeTickConnector.getSession()).requestQuote());
+			position.setLastQuote(lastQuote);
 			
 			position.setOpenValue(
 				this.numberFormat.parse(this.numberFormat.format(
@@ -34,7 +41,7 @@ public class PositionListener implements EntityListener<Position>{
 					new StockOrder(
 						0, 
 						position.getStock(), 
-						position.getLastQuote().getLast(), 
+						position.getLastQuote().getClose(), 
 						position.getBuyOrder().getBrokerFees(), 
 						position.getBuyOrder().getQuantity()
 					)
