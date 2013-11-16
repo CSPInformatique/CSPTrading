@@ -20,8 +20,9 @@ public class WalletListener implements EntityListener<Wallet> {
 			
 			int openPositions = 0;
 			for(Position position : wallet.getPositions()){
-				wallet.setCurrentValue(wallet.getCurrentValue() + position.getCurrentValue());
 				if(position.getCloseDate() == null){
+					wallet.setCurrentValue(wallet.getCurrentValue() + position.getCurrentValue());
+					
 					++openPositions;
 				}
 			}

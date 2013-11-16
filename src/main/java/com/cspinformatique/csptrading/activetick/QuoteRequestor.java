@@ -58,7 +58,7 @@ public class QuoteRequestor extends ActiveTickServerRequester {
 								
 								this.price = Price.ToDouble(FeedParser.ParsePrice(priceBytes, 0));
 								
-								logger.info("Retreive last price " + price + " for symbol" + stock.getSymbol());
+								logger.info("Retreive last price " + price + " for symbol " + stock.getSymbol() + ".");
 							}
 						}
 					}else{
