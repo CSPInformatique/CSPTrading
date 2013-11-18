@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Stock implements Serializable{
@@ -18,6 +19,7 @@ public class Stock implements Serializable{
 	private String symbol;
 	private String name;
 	private Market market;
+	private Quote lastQuote;
 	private Date lastQuoteTimestamp;
 	
 	public Stock() {
@@ -29,14 +31,14 @@ public class Stock implements Serializable{
 		String symbol, 
 		String name, 
 		Market market,
-		Date lastQuoteTimestamp,
-		Quote lastQuote, 
-		StockStats stockStats
+		Quote lastQuote,
+		Date lastQuoteTimestamp
 	){
 		this.id = id;
 		this.symbol = symbol;
 		this.name = name;
 		this.market = market;
+		this.lastQuote = lastQuote;
 		this.lastQuoteTimestamp = lastQuoteTimestamp;
 	}
 	
@@ -84,52 +86,12 @@ public class Stock implements Serializable{
 		this.lastQuoteTimestamp = lastQuoteTimestamp;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime
-				* result
-				+ ((lastQuoteTimestamp == null) ? 0 : lastQuoteTimestamp
-						.hashCode());
-		result = prime * result + ((market == null) ? 0 : market.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
-		return result;
+	@Transient
+	public Quote getLastQuote() {
+		return lastQuote;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Stock other = (Stock) obj;
-		if (id != other.id)
-			return false;
-		if (lastQuoteTimestamp == null) {
-			if (other.lastQuoteTimestamp != null)
-				return false;
-		} else if (!lastQuoteTimestamp.equals(other.lastQuoteTimestamp))
-			return false;
-		if (market == null) {
-			if (other.market != null)
-				return false;
-		} else if (!market.equals(other.market))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (symbol == null) {
-			if (other.symbol != null)
-				return false;
-		} else if (!symbol.equals(other.symbol))
-			return false;
-		return true;
+	public void setLastQuote(Quote lastQuote) {
+		this.lastQuote = lastQuote;
 	}
 }

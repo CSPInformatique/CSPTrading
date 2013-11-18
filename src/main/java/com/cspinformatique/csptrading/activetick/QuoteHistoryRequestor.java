@@ -32,6 +32,7 @@ public class QuoteHistoryRequestor extends at.feedapi.ActiveTickServerRequester{
 	private Date startDate;
 	private Date endDate;
 	private DateFormat dateFormat;
+	private short intradayMinuteCompression;
 	
 	private boolean completed;
 	
@@ -41,6 +42,7 @@ public class QuoteHistoryRequestor extends at.feedapi.ActiveTickServerRequester{
 		Stock stock, 
 		Date startDate,
 		Date endDate,
+		short intradayMinuteCompression,
 		Session session
 	) {
 		super(session, new ActiveTickStreamListener(session, false));
@@ -48,7 +50,7 @@ public class QuoteHistoryRequestor extends at.feedapi.ActiveTickServerRequester{
 		this.stock = stock;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		
+		this.intradayMinuteCompression = intradayMinuteCompression;
 		
 		// 2011 11 03 13 00 00
 		this.dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -117,7 +119,7 @@ public class QuoteHistoryRequestor extends at.feedapi.ActiveTickServerRequester{
 		this.SendATBarHistoryDbRequest(
 			atSymbol, 
 			(new ATServerAPIDefines()).new ATBarHistoryType(ATBarHistoryType.BarHistoryIntraday),
-			(short)1, 
+			intradayMinuteCompression, 
 			beginDateTime, 
 			endDateTime, 
 			ActiveTickServerAPI.DEFAULT_REQUEST_TIMEOUT

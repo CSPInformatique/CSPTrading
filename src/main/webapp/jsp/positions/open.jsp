@@ -41,7 +41,7 @@
 				<td class="quantity"><div><@= position.buyOrder.quantity @></div></td>
 				<td class="initialValue"><div><@= position.openValue @></div></td>
 				<td class="brokerFees"><div><@= position.buyOrder.brokerFees @></div></td>
-				<td class="lastQuote"><div><@= position.lastQuote.close @></div></td>
+				<td class="lastQuote"><div><@= position.stock.lastQuote.low @></div></td>
 				<td class="currentValue"><div><@= position.currentValue @></div></td>
 				<td class="performance"><div><@= position.performance @></div></td>
 				<td class="openDate"><div><@= position.openDate @></div></td>
@@ -56,7 +56,7 @@
 		<@ _.each(marketsStocksList, function(marketStocks) { @>
 			<optgroup label="<@= marketStocks.market.name @>">
 				<@ _.each(marketStocks.stocks, function(stock) { @>
-					<option value="<@= stock.id @>"><@= stock.symbol @></option>
+					<option value="<@= stock @>"><@= stock @></option>
 				<@}); @>
 			</optgroup
 		<@}); @>

@@ -59,15 +59,18 @@ public class StocksAnalysisServiceImpl implements StocksAnalysisService {
 	@Override
 	public void generateAnalysis(StocksAnalysis stocksAnalysis){
 		// Retreiving every stocks.
-		List<Stock> stocks = stockService.getStocks();
+		List<String> symbols = stockService.getSymbols();
 		
-		stocksAnalysis.setStocksToProcess(stocks.size());
-		for(Stock stock : stockService.getStocks()){
+		stocksAnalysis.setStocksToProcess(symbols.size());
+		
+		for(String symbol : symbols){
+			Stock stock = this.stockService.getStock(symbol);
 			
 			List<Quote> quotes =	this.quoteService.loadQuotesFromProvider(
 										stock, 
 										stocksAnalysis.getStartDate(), 
-										stocksAnalysis.getEndDate()
+										stocksAnalysis.getEndDate(),
+										(short)1
 									);
 			
 			// Calculating the average quote.
@@ -81,7 +84,7 @@ public class StocksAnalysisServiceImpl implements StocksAnalysisService {
 			}
 			double quoteAverage = total / quotes.size();
 			
-			double lastQuote = new QuoteRequestor(stock, activeTickConnector.getSession()).requestQuote();
+			double lastQuote = new QuoteRequestor(stock, activeTickConnector.getSession()).requestQuote().getLow();
 			
 			double cycleTarget = lowestQuote * ((stocksAnalysis.getCyclesMarginPercent() / 100) + 1);
 			logger.info(
@@ -93,6 +96,7 @@ public class StocksAnalysisServiceImpl implements StocksAnalysisService {
 				// Calculating cycles.
 				int cyclesCount = 0;
 				boolean lowReached = false;
+				long volume = 0l;
 				for(Quote quote : quotes){
 					// cycle count activate itself when the lowest quote + cycle margin is reached.
 					if(!lowReached){
@@ -107,6 +111,8 @@ public class StocksAnalysisServiceImpl implements StocksAnalysisService {
 							lowReached = false;
 						}
 					}
+					
+					volume += quote.getVolume();
 				}
 				
 				logger.info(cyclesCount + " calculated for " + stock.getSymbol() + ".");
@@ -120,7 +126,8 @@ public class StocksAnalysisServiceImpl implements StocksAnalysisService {
 							cyclesCount, 
 							quoteAverage - cycleTarget, 
 							quoteAverage,
-							lastQuote
+							lastQuote,
+							volume
 						)
 					);
 				}

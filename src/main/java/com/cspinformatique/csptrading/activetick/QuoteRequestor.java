@@ -1,12 +1,12 @@
 package com.cspinformatique.csptrading.activetick;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.Stock;
 
 import at.feedapi.ActiveTickServerAPI;
@@ -16,7 +16,6 @@ import at.feedapi.FeedParser;
 import at.feedapi.Helpers;
 import at.feedapi.Session;
 import at.shared.ATServerAPIDefines;
-import at.shared.ATServerAPIDefines.ATDataType;
 import at.shared.ATServerAPIDefines.ATQuoteDbResponseType;
 import at.shared.ATServerAPIDefines.ATQuoteFieldType;
 import at.shared.ATServerAPIDefines.ATSYMBOL;
@@ -25,10 +24,8 @@ import at.shared.ATServerAPIDefines.QuoteDbDataItem;
 import at.shared.ATServerAPIDefines.QuoteDbResponseItem;
 import at.shared.ActiveTick.Price;
 
-public class QuoteRequestor extends ActiveTickServerRequester {
-	private static final Logger logger = LoggerFactory.getLogger(QuoteRequestor.class);
-	
-	private double price;
+public class QuoteRequestor extends ActiveTickServerRequester {	
+	private Quote quote;
 	private Stock stock;
 	
 	private boolean completed;
@@ -47,18 +44,28 @@ public class QuoteRequestor extends ActiveTickServerRequester {
 		ATServerAPIDefines.ATQuoteDbResponseType responseType, 
 		Vector<ATServerAPIDefines.QuoteDbResponseItem> vecData
 	){
+		byte[] priceBytes = new byte[5];
+		byte[] longBytes = new byte[8];
+		
 		try{
 			if(responseType.m_atQuoteDbResponseType == ATQuoteDbResponseType.QuoteDbResponseSuccess){
 				for(QuoteDbResponseItem responseItem : vecData){
+					this.quote = new Quote();
 					if(responseItem.m_atResponse.status.m_atSymbolStatus == ATSymbolStatus.SymbolStatusSuccess){
-						for(QuoteDbDataItem quoteItem : responseItem.m_vecDataItems){
-							if(quoteItem.m_dataItem.dataType.m_atDataType == ATDataType.Price){
-								byte[] priceBytes = new byte[5];
-								System.arraycopy(quoteItem.GetItemData(), 0, priceBytes, 0, priceBytes.length);
-								
-								this.price = Price.ToDouble(FeedParser.ParsePrice(priceBytes, 0));
-								
-								logger.info("Retreive last price " + price + " for symbol " + stock.getSymbol() + ".");
+						
+						for(QuoteDbDataItem quoteItem : responseItem.m_vecDataItems){							
+							switch(quoteItem.m_dataItem.fieldType.m_atQuoteFieldType){
+								case ATQuoteFieldType.LastPrice:{
+									
+									System.arraycopy(quoteItem.GetItemData(), 0, priceBytes, 0, priceBytes.length);
+									
+									this.quote.setLow(Price.ToDouble(FeedParser.ParsePrice(priceBytes, 0)));
+									break;
+								} case ATQuoteFieldType.Volume:{
+									System.arraycopy(quoteItem.GetItemData(), 0, longBytes, 0, 8);
+									this.quote.setVolume(ByteBuffer.wrap(longBytes).order(ByteOrder.LITTLE_ENDIAN).getLong());
+									break;
+								}
 							}
 						}
 					}else{
@@ -76,13 +83,15 @@ public class QuoteRequestor extends ActiveTickServerRequester {
 		}
 	}
 	
-	public double requestQuote(){
+	public Quote requestQuote(){
 		this.completed = false;
 		
 		List<ATSYMBOL> symbols = Arrays.asList(new ATSYMBOL[]{Helpers.StringToSymbol(this.stock.getSymbol())});
+		ATServerAPIDefines apiDefines = new ATServerAPIDefines();
 		List<ATQuoteFieldType> fields =	Arrays.asList(
 											new ATQuoteFieldType[]{
-												new ATServerAPIDefines().new ATQuoteFieldType(ATQuoteFieldType.LastPrice)
+													apiDefines.new ATQuoteFieldType(ATQuoteFieldType.LastPrice),
+													apiDefines.new ATQuoteFieldType(ATQuoteFieldType.Volume),
 											}
 										);
 		
@@ -102,6 +111,6 @@ public class QuoteRequestor extends ActiveTickServerRequester {
 			}
 		}while(!completed);
 		
-		return price;
+		return this.quote;
 	}
 }

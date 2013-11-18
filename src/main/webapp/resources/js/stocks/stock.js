@@ -6,17 +6,21 @@ window.Stock = Backbone.Model.extend({
 	},
 });
 
+window.StockChart = Backbone.Model.extend({
+	url : function() {
+		return  ctx + "/stock/" + this.symbol +  "/chart.json";
+	},
+});
+
 window.MarketStocksList = Backbone.Collection.extend({
 	url: ctx + '/stock.json?market'
 });
 
-window.StocksList = Backbone.Collection.extend({
-	url: ctx + '/stock.json'
-});
-
-window.StocksStatsList = Backbone.Collection.extend({
-	comparator: function(stockStats){
-		return stockStats.get("lowAverageVariation");
+window.StockSearchResult = Backbone.Model.extend({
+	url : function() {
+		if(!this.pageIndex || this.pageIndex < 0){
+			this.pageIndex = 0;
+		}
+		return ctx + '/stock.json?pageIndex=' + this.pageIndex + "&resultsPerPage=20";
 	},
-	url: ctx + '/stockStats.json'
 });

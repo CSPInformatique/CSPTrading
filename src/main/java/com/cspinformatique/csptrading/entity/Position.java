@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,6 @@ public class Position implements Serializable{
 	private StockOrder sellOrder;
 	private Date openDate;
 	private Date closeDate;
-	private Quote lastQuote;
 	private double openValue;
 	private double currentValue;
 	private double returnOnInvestment;
@@ -58,7 +58,6 @@ public class Position implements Serializable{
 		this.sellOrder = sellOrder;
 		this.openDate = openDate;
 		this.closeDate = closeDate;
-		this.lastQuote = lastQuote;
 		this.openValue = openValue;
 		this.currentValue = currentValue;
 		this.returnOnInvestment = returnOnInvestment;
@@ -85,7 +84,7 @@ public class Position implements Serializable{
 		this.wallet = wallet;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="stockId")
 	public Stock getStock() {
 		return stock;
@@ -129,15 +128,6 @@ public class Position implements Serializable{
 	
 	public void setCloseDate(Date closeDate) {
 		this.closeDate = closeDate;
-	}
-
-	@Transient
-	public Quote getLastQuote() {
-		return lastQuote;
-	}
-
-	public void setLastQuote(Quote lastQuote) {
-		this.lastQuote = lastQuote;
 	}
 
 	@Transient
@@ -189,8 +179,6 @@ public class Position implements Serializable{
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + id;
 		result = prime * result
-				+ ((lastQuote == null) ? 0 : lastQuote.hashCode());
-		result = prime * result
 				+ ((openDate == null) ? 0 : openDate.hashCode());
 		temp = Double.doubleToLongBits(openValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -228,11 +216,6 @@ public class Position implements Serializable{
 				.doubleToLongBits(other.currentValue))
 			return false;
 		if (id != other.id)
-			return false;
-		if (lastQuote == null) {
-			if (other.lastQuote != null)
-				return false;
-		} else if (!lastQuote.equals(other.lastQuote))
 			return false;
 		if (openDate == null) {
 			if (other.openDate != null)

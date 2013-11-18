@@ -11,11 +11,7 @@ public interface QuoteService{
 	
 	public double getBuyableQuantity(double investment, double price);
 	
-	public void loadLatestQuoteFromProvider(Stock stock);
+	public Quote loadLatestQuoteFromProvider(Stock stock);
 	
-	public List<Quote> loadQuotesFromProvider(Stock stock, Date startDate, Date endDate);
-	
-	public void saveQuote(Quote quote);
-	
-	public void saveQuotes(List<Quote> quotes);
+	public List<Quote> loadQuotesFromProvider(Stock stock, Date startDate, Date endDate, short intradayMinuteCompression);
 }

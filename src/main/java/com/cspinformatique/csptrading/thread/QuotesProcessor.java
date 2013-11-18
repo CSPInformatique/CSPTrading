@@ -70,11 +70,12 @@ public class QuotesProcessor implements Runnable {
 			this.stop = false;
 			startTimestamp = new Date();
 			
-			List<Stock> stocks = this.stockService.getStocks();
-			stocksToProccess = stocks.size();
+			List<String> symbols = this.stockService.getSymbols();
+			stocksToProccess = symbols.size();
 			stocksProccessed = 0;
 			
-			for(Stock stock : stocks){					
+			for(String symbol : symbols){
+				Stock stock = this.stockService.getStock(symbol);
 				if(!stop){
 					stockService.refreshStockQuote(stock);
 					

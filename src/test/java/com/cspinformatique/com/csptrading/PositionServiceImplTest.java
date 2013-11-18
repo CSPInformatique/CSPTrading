@@ -23,7 +23,7 @@ public class PositionServiceImplTest {
 	
 	@Test
 	public void calculateInvestmentTest(){
-		Stock cspStock = new Stock(1, "CSP", "CSP Informatique", new Market("NASDAQ", 0, 0, 0, 0), null, null, null);
+		Stock cspStock = new Stock(1, "CSP", "CSP Informatique", new Market("NASDAQ", 0, 0, 0, 0), null, null);
 		
 		Position investment1 =	new Position(
 									0,

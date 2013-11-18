@@ -1,7 +1,5 @@
 package com.cspinformatique.csptrading.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.cspinformatique.csptrading.activetick.ActiveTickConnector;
 import com.cspinformatique.csptrading.activetick.QuoteHistoryRequestor;
+import com.cspinformatique.csptrading.activetick.QuoteRequestor;
 import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.Stock;
-import com.cspinformatique.csptrading.repository.mongo.QuoteRepository;
-import com.cspinformatique.csptrading.service.QuoteGapService;
 import com.cspinformatique.csptrading.service.QuoteService;
 import com.cspinformatique.csptrading.service.StockService;
-import com.cspinformatique.csptrading.service.StockStatsService;
 import com.cspinformatique.csptrading.util.MarketUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,12 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class QuoteServiceImpl implements QuoteService {	
 	@Autowired private ActiveTickConnector activeTickConnector;
 	
-	@Autowired private QuoteGapService quoteGapService;	
-	@Autowired private QuoteRepository quoteRepository;
-	
 	@Autowired private ObjectMapper objectMapper;
 	@Autowired private StockService stockService;
-	@Autowired private StockStatsService stockStatsService;
 	
 	@Override
 	public double getAverageLowQuote(Stock stock, List<Quote> quotes){
@@ -62,73 +54,18 @@ public class QuoteServiceImpl implements QuoteService {
 	}
 	
 	@Override
-	public void loadLatestQuoteFromProvider(Stock stock){
-		List<Quote> quoteForStats = new ArrayList<Quote>();
-		Date startDate = null;
-		Date endDate = new Date();
-		Date lastQuoteTimestamp = null;
-		
-		try{
-			// Retreiving latest date from datasource.
-			if(stock.getLastQuoteTimestamp() != null){
-				startDate = MarketUtil.getOpeningTime(stock.getMarket(), stock.getLastQuoteTimestamp());
-			}else{
-				Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, -8);
-				startDate = MarketUtil.getOpeningTime(stock.getMarket(), MarketUtil.getOpenedDatesSinceDays(8).get(7));
-			}
-			
-			Calendar todayCalendar = Calendar.getInstance();
-			Calendar quoteCalendar = Calendar.getInstance();
-			todayCalendar.setTime(new Date());
-			
-			List<Quote> quotes =  this.loadQuotesFromProvider(stock, startDate, endDate);
-			
-			for(Quote quote : quotes){
-				quoteCalendar.setTime(quote.getTimestamp());
-				if(todayCalendar.get(Calendar.DAY_OF_MONTH) != quoteCalendar.get(Calendar.DAY_OF_MONTH)){
-					quoteForStats.add(quote);
-				}
-				
-				if(lastQuoteTimestamp == null || lastQuoteTimestamp.getTime() < quote.getTimestamp().getTime()){
-					lastQuoteTimestamp = quote.getTimestamp();
-				}
-			}
-
-			// Calculating quote gaps.
-			for(Date date : MarketUtil.getOpenedDates(startDate, endDate)){
-				quoteGapService.generateQuoteGap(stock, quoteForStats, date);
-			}
-			
-			if(quotes.size() > 0){
-				this.saveQuotes(quotes);
-				
-				stock.setLastQuoteTimestamp(lastQuoteTimestamp);
-				this.stockService.saveStock(stock);
-				this.stockStatsService.generateStockStats(stock, MarketUtil.getOpenedDates(startDate, endDate));
-			}
-		}catch(Exception ex){
-			throw new RuntimeException(ex);
-		}
+	public Quote loadLatestQuoteFromProvider(Stock stock){
+		return new QuoteRequestor(stock, activeTickConnector.getSession()).requestQuote();
 	}
 	
 	@Override
-	public List<Quote> loadQuotesFromProvider(Stock stock, Date startDate, Date endDate){
+	public List<Quote> loadQuotesFromProvider(Stock stock, Date startDate, Date endDate, short intradayMinuteCompression){
 		return new QuoteHistoryRequestor(
 			stock, 
 			startDate, 
 			endDate,
+			intradayMinuteCompression,
 			this.activeTickConnector.getSession()
 		).requestQuotes();
-	}
-	
-	@Override
-	public void saveQuote(Quote quote) {
-		this.quoteRepository.save(quote);
-	}
-	
-	@Override
-	public void saveQuotes(List<Quote> quotes) {
-		this.quoteRepository.save(quotes);
 	}	
 }

@@ -38,10 +38,16 @@
 	<definition name="tools" extends="menuTemplate">
 		<put-attribute name="content" value="/jsp/tools.jsp" />
 	</definition>
-
-	<definition name="stock/stocksStats" extends="menuTemplate">
-		<put-attribute name="content" value="/jsp/stocks/stocksStats.jsp" />
+	
+	<definition name="stock" extends="menuTemplate">
+		<put-attribute name="content" value="/jsp/stocks/stock.jsp" />
 	</definition>
+
+	<definition name="stocks" extends="menuTemplate">
+		<put-attribute name="content" value="/jsp/stocks/stocks.jsp" />
+	</definition>
+	
+
 	
 	<definition name="wallet" extends="menuTemplate">
 		<put-attribute name="content" value="/jsp/wallets.jsp" />

@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cspinformatique.csptrading.activetick.ActiveTickConnector;
-import com.cspinformatique.csptrading.activetick.QuoteRequestor;
 import com.cspinformatique.csptrading.entity.Position;
-import com.cspinformatique.csptrading.entity.Quote;
 import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.service.PositionService;
 import com.cspinformatique.csptrading.service.QuoteService;
@@ -22,13 +20,14 @@ public class PositionListener implements EntityListener<Position>{
 	
 	@Autowired private NumberFormat numberFormat;
 	
+	@Autowired private StockListener stockListener;
+	
 	@Override
 	public void handlePostLoad(Position position) {
-		try{
-			// Retreives last price from Active Tick Web Service.
-			Quote lastQuote = new Quote();
-			lastQuote.setClose(new QuoteRequestor(position.getStock(), activeTickConnector.getSession()).requestQuote());
-			position.setLastQuote(lastQuote);
+		try{		
+			if(position.getStock().getLastQuote() == null){
+				stockListener.handlePostLoad(position.getStock());
+			}
 			
 			position.setOpenValue(
 				this.numberFormat.parse(this.numberFormat.format(
@@ -41,7 +40,7 @@ public class PositionListener implements EntityListener<Position>{
 					new StockOrder(
 						0, 
 						position.getStock(), 
-						position.getLastQuote().getClose(), 
+						position.getStock().getLastQuote().getLow(), 
 						position.getBuyOrder().getBrokerFees(), 
 						position.getBuyOrder().getQuantity()
 					)

@@ -28,7 +28,18 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 	)
 	public List<Stock> findWithPositions();
 	
-	public List<Stock> findByMarket(Market market);
+	@Query(
+		"SELECT " +
+		"	stock.symbol " +
+		"FROM " +
+		"	Stock stock " +
+		"WHERE " +
+		"	stock.market = ?1"
+	)
+	public List<String> findByMarket(Market market);
 	
 	public Stock findBySymbol(String symbol);
+	
+	@Query("SELECT symbol FROM Stock")
+	public List<String> findSymbols();
 }

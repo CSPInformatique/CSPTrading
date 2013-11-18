@@ -13,18 +13,16 @@
     <a class="brand">CSP Trading</a>
     <div class="nav-collapse collapse">
       <ul class="nav">
-      	<li class="wallets"><a href="wallet">Wallets</a></li>
+      	<li class="wallets"><a href="<c:url value="/wallet" />">Wallets</a></li>
       	<li class="positions dropdown">
-      		<a href="position" class="dropdown-toggle" data-toggle="dropdown">Positions<b class="caret"></b></a>
+      		<a href="<c:url value="/position" />" class="dropdown-toggle" data-toggle="dropdown">Positions<b class="caret"></b></a>
       		<ul class="dropdown-menu">
-				<li><a href="position">Open positions</a></li>
-				<li><a href="position?closed">Closed positions</a></li>
+				<li><a href="<c:url value="/position" />">Open positions</a></li>
+				<li><a href="<c:url value="/position?closed" />">Closed positions</a></li>
       		</ul>
       	</li>
-      	<li class="stocks"><a href="stockStats">Stocks</a></li>
-		<li class="quotes"><a href="quote">Quotes</a></li>
-		<li class="quoteProcessor"><a href="quoteProcessor">Quote Processor</a></li>
-		<li class="tools"><a href="tools">Tools</a></li>
+      	<li class="stocks"><a href="<c:url value="/stock" />">Stocks</a></li>
+		<li class="tools"><a href="<c:url value="/tools" />">Tools</a></li>
       </ul>
     </div><!--/.nav-collapse -->
     </div>

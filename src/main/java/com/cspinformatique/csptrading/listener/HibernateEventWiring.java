@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Component;
 
 import com.cspinformatique.csptrading.entity.Position;
+import com.cspinformatique.csptrading.entity.Stock;
 import com.cspinformatique.csptrading.entity.Wallet;
 
 @Component
@@ -22,6 +23,7 @@ public class HibernateEventWiring implements PostLoadEventListener {
 	@Autowired private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 	
 	@Autowired private PositionListener positionListener;
+	@Autowired private StockListener stockListener;
 	@Autowired private WalletListener walletListener;
 	
 	@PostConstruct
@@ -38,10 +40,13 @@ public class HibernateEventWiring implements PostLoadEventListener {
 	@Override
 	public void onPostLoad(PostLoadEvent event) {
 		Object entity = event.getEntity();
-		if(entity instanceof Wallet){
-			walletListener.handlePostLoad((Wallet)entity);
-		}else if(entity instanceof Position){
+
+		if(entity instanceof Position){
 			positionListener.handlePostLoad((Position)entity);
+		}else if(entity instanceof Stock){
+			stockListener.handlePostLoad((Stock)entity);
+		}else if(entity instanceof Wallet){
+			walletListener.handlePostLoad((Wallet)entity);
 		}
 	}
 }

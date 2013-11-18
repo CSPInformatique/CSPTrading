@@ -18,12 +18,14 @@ import com.cspinformatique.csptrading.entity.Position;
 import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.entity.Wallet;
 import com.cspinformatique.csptrading.service.PositionService;
+import com.cspinformatique.csptrading.service.StockService;
 import com.cspinformatique.csptrading.service.WalletService;
 
 @Controller
 @RequestMapping("/wallet")
 public class WalletController extends CspTradingController {
 	@Autowired private PositionService positionService;
+	@Autowired private StockService stockService;
 	@Autowired private WalletService walletService;
 	
 	@Autowired private PositionController positionController;
@@ -78,15 +80,18 @@ public class WalletController extends CspTradingController {
 		return this.walletService.getWalletOpenPositions(wallet);
 	}
 	
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method=RequestMethod.POST)
 	public Wallet saveWallet(@RequestBody Wallet wallet){
 		return this.walletService.saveWallet(wallet);
 	}
 	
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method=RequestMethod.POST, value="/{wallet}/position")
 	public @ResponseBody Position addPositionToWallet(@RequestBody Position position){
+		position.setStock(stockService.getStock(position.getStock().getSymbol()));
+		position.getBuyOrder().setStock(position.getStock());
+		
 		return this.walletService.addPositionToWallet(
 			this.walletService.getWallet(position.getWallet().getId()), 
 			position

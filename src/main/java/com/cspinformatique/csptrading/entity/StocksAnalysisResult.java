@@ -17,6 +17,7 @@ public class StocksAnalysisResult {
 	private double cyclesGap;
 	private double quoteAverage;
 	private double currentValue;
+	private double volume;
 	
 	public StocksAnalysisResult(){
 		
@@ -29,7 +30,8 @@ public class StocksAnalysisResult {
 		int cycles, 
 		double cyclesGap,
 		double quoteAverage,
-		double currentValue
+		double currentValue,
+		double volume
 	){
 		this.id = id;
 		this.stocksAnalysis = stocksAnalysis;
@@ -38,6 +40,7 @@ public class StocksAnalysisResult {
 		this.cyclesGap = cyclesGap;
 		this.quoteAverage = quoteAverage;
 		this.currentValue = currentValue;
+		this.volume = volume;
 	}
 	
 	@Id
@@ -100,5 +103,13 @@ public class StocksAnalysisResult {
 
 	public void setCurrentValue(double currentValue) {
 		this.currentValue = currentValue;
+	}
+
+	public double getVolume() {
+		return volume;
+	}
+
+	public void setVolume(double volume) {
+		this.volume = volume;
 	}
 }

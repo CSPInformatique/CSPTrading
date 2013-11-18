@@ -7,13 +7,13 @@ public class MarketStocks implements Serializable{
 	private static final long serialVersionUID = -2690026546940552755L;
 	
 	private Market market;
-	private List<Stock> stocks;
+	private List<String> stocks;
 	
 	public MarketStocks() {
 		
 	}
 	
-	public MarketStocks(Market market, List<Stock> stocks) {
+	public MarketStocks(Market market, List<String> stocks) {
 		this.market = market;
 		this.stocks = stocks;
 	}
@@ -26,11 +26,11 @@ public class MarketStocks implements Serializable{
 		this.market = market;
 	}
 	
-	public List<Stock> getStocks() {
+	public List<String> getStocks() {
 		return stocks;
 	}
 	
-	public void setStocks(List<Stock> stocks) {
+	public void setStocks(List<String> stocks) {
 		this.stocks = stocks;
 	}
 

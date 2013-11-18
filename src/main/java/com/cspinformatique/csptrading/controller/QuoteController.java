@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cspinformatique.csptrading.service.QuoteService;
 import com.cspinformatique.csptrading.service.StockService;
+
 @Controller
 @RequestMapping("/quote")
-public class QuoteController extends CspTradingController {
-	@Autowired private QuoteGapController quoteGapController;
-	
+public class QuoteController extends CspTradingController {	
 	@Autowired private QuoteService quoteService;
 	@Autowired private StockService stockService;
 	

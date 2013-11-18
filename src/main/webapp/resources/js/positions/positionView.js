@@ -66,15 +66,12 @@ window.WalletOpenPositionListView = Backbone.View.extend({
 		var collection = this.collection;
 		this.collection.create(
 			{	stock: {
-					id: parseInt($(".newPosition .stock").select2("val"))
+					symbol: $(".newPosition .stock").select2("val")
 				},
 				wallet: {
 					id: parseInt($("select.wallet").select2("val"))
 				},
 				buyOrder: {
-					stock: {
-						id: parseInt($(".newPosition .stock").select2("val"))
-					},
 					price: parseFloat($(".newPosition .price input").val()),
 					brokerFees: parseFloat($(".newPosition .brokerFees input").val()),
 					quantity: parseInt($(".newPosition .quantity input").val())

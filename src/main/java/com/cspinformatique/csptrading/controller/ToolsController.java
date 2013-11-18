@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cspinformatique.csptrading.entity.Position;
 import com.cspinformatique.csptrading.entity.StockOrder;
 import com.cspinformatique.csptrading.service.PositionService;
-import com.cspinformatique.csptrading.service.QuoteGapService;
 import com.cspinformatique.csptrading.service.QuoteService;
 import com.cspinformatique.csptrading.service.StockService;
 
@@ -18,7 +17,6 @@ import com.cspinformatique.csptrading.service.StockService;
 @RequestMapping("/tools")
 public class ToolsController extends CspTradingController {
 	@Autowired private PositionService positionService;
-	@Autowired private QuoteGapService quoteGapService;
 	@Autowired private QuoteService quoteService;
 	@Autowired private StockService stockService;
 	
